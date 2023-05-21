@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 import './App.css'
 
-import { Login, Register, PageNotFound, Product } from "./pages";
+import { Login, Register, PageNotFound, Product, Edit } from "./pages";
 import { Footer, Header, Searchbar } from "./components";
 
 function App() {
@@ -30,6 +30,7 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path="/product" element={<Product />} />
+          <Route path="/edit" element={<Edit />} />
           <Route path='*' element={<PageNotFound />} />
         </Routes>
       </div>
