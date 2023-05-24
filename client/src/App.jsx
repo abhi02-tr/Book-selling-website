@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { Routes, Route, Link, useLocation } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import './App.css'
 
 import { Login, Register, PageNotFound, Product, Edit } from "./pages";
@@ -12,6 +12,7 @@ function App() {
   const [path, setPath] = useState("Login");
   const [isLogin, setIslogin] = useState(false);
   const location = useLocation();
+  const api_url = import.meta.env.VITE_url;
 
   useEffect(() => {
     let path = location.pathname;
@@ -35,6 +36,7 @@ function App() {
         theme="light"
       />
       <LoginContext.Provider value={{
+        api_url,
         isLogin,
         setIslogin
       }} >

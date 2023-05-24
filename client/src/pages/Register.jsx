@@ -1,18 +1,16 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { LoginContext } from "../contexts";
 
 
 export default function Register() {
     const navigate = useNavigate();
-    const [firstname, setFirstname] = useState("");
-    const [lastname, setLastname] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const api_url = import.meta.env.VITE_url;
     const [role, setRole] = useState("buyer");
 
     const registerSchema = Yup.object().shape({
@@ -27,15 +25,27 @@ export default function Register() {
             .oneOf([Yup.ref('password'), null], 'Passwords must match'),
     });
 
-    const handleRegister = (values) => {
-        toast("Registered Successfully..")
-        navigate("/login");
+    const handleRegister = async (values) => {
+        try {
+            const response = await axios.post(api_url + "/user", {
+                data: {
+                    ...values,
+                    role: role
+                }
+            });
+            const data = response.data;
+            toast("Registered Successfully..");
+            navigate("/login");
+        } catch (err) {
+            console.log(err);
+            toast("Error" + err);
+        }
     }
 
 
     return (
         <div className="flex flex-col">
-            
+
             <div className="font-bold flex justify-center text-4xl font-roboto">
                 Create An Account
             </div>
