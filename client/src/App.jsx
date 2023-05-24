@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { Routes, Route, Link, useLocation } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import './App.css'
 
 import { Login, Register, PageNotFound, Product, Edit } from "./pages";
@@ -21,6 +22,18 @@ function App() {
 
   return (
     <>
+      <ToastContainer
+        position="top-left"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <LoginContext.Provider value={{
         isLogin,
         setIslogin
@@ -31,21 +44,21 @@ function App() {
           <p className="font-bold">Home {'> '} </p> <p className="text-red-400 font-bold">{" " + path}</p>
         </div>
         <div className="mb-10 px-24">
-          
-            {!isLogin ? (
-              <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path='/register' element={<Register />} />
-                <Route path='/login' element={<Login />} />
-                <Route path='*' element={<PageNotFound />} />
-              </Routes>
-            ) : (
-              <Routes>
-                <Route path="/product" element={<Product />} />
-                <Route path="/edit" element={<Edit />} />
-                <Route path='*' element={<PageNotFound />} />
-              </Routes>
-            )}
+
+          {!isLogin ? (
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path='/register' element={<Register />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='*' element={<PageNotFound />} />
+            </Routes>
+          ) : (
+            <Routes>
+              <Route path="/product" element={<Product />} />
+              <Route path="/edit" element={<Edit />} />
+              <Route path='*' element={<PageNotFound />} />
+            </Routes>
+          )}
 
         </div>
       </LoginContext.Provider>
