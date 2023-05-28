@@ -3,14 +3,15 @@ import { Routes, Route, Link, useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import './App.css'
 
-import { Login, Register, PageNotFound, Product, Edit } from "./pages";
+import { Login, Register, PageNotFound, Product, Edit, Home } from "./pages";
 import { Footer, Header, Searchbar } from "./components";
-import { LoginContext } from "./contexts";
+import { LoginContext, UserContext } from "./contexts";
 
 function App() {
 
   const [path, setPath] = useState("Login");
   const [isLogin, setIslogin] = useState(false);
+  const [user, setUser] = useState({});
   const location = useLocation();
   const api_url = import.meta.env.VITE_url;
 
@@ -40,29 +41,28 @@ function App() {
         isLogin,
         setIslogin
       }} >
-        <Header />
-        <Searchbar />
-        <div className="max-w-screen my-5 flex items-center justify-center gap-1">
-          <p className="font-bold">Home {'> '} </p> <p className="text-red-400 font-bold">{" " + path}</p>
-        </div>
-        <div className="mb-10 px-24">
+        <UserContext.Provider value={{
+          user,
+          setUser
+        }} >
+          <Header />
+          <Searchbar />
+          <div className="max-w-screen my-5 flex items-center justify-center gap-1">
+            <p className="font-bold">Home {'> '} </p> <p className="text-red-400 font-bold">{" " + path}</p>
+          </div>
+          <div className="mb-10 px-24">
 
-          {!isLogin ? (
             <Routes>
-              <Route path="/" element={<Login />} />
+              <Route path="/" element={isLogin ? (<Home />) : (<Login />)} />
               <Route path='/register' element={<Register />} />
-              <Route path='/login' element={<Login />} />
+              <Route path='/login' element={isLogin ? (<Home />) : (<Login />)} />
+              <Route path="/product" element={isLogin ? (<Product />) : (<Login />)} />
+              <Route path="/edit" element={isLogin ? (<Edit />) : (<Login />)} />
               <Route path='*' element={<PageNotFound />} />
             </Routes>
-          ) : (
-            <Routes>
-              <Route path="/product" element={<Product />} />
-              <Route path="/edit" element={<Edit />} />
-              <Route path='*' element={<PageNotFound />} />
-            </Routes>
-          )}
 
-        </div>
+          </div>
+        </UserContext.Provider>
       </LoginContext.Provider>
       <Footer />
     </>

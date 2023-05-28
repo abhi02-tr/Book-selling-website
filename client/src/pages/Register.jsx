@@ -34,6 +34,7 @@ export default function Register() {
                 }
             });
             const data = response.data;
+            console.log(data)
             toast("Registered Successfully..");
             navigate("/login");
         } catch (err) {

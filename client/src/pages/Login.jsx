@@ -1,14 +1,17 @@
 import { useState, useContext } from "react";
+import axios from "axios";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { LoginContext } from "../contexts";
+import { LoginContext, UserContext } from "../contexts";
 
 const Login = () => {
+    const api_url = import.meta.env.VITE_url;
     const navigate = useNavigate();
     const { isLogin, setIslogin } = useContext(LoginContext);
+    const {user, setUser} = useContext(UserContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -24,11 +27,33 @@ const Login = () => {
             .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.'),
     });
 
-    const handleLogin = (values) => {
+    const handleLogin = async (values) => {
         // alert(values.password);
-        setIslogin(true);
-        toast("Login Successfully...");
-        navigate("/product");
+        try {
+            const res = await axios.post(api_url + "/user/login", {
+                data: {
+                    ...values
+                }
+            });
+            // console.log(res);
+            if(res.data.error) {
+                toast(res.data.error, {
+                    type: "error",
+                })
+            }
+            else {
+                const userData = res.data.user[0];
+                setUser(userData);
+                toast(res.data.message);
+                setTimeout(()=>{
+                    setIslogin(true);
+                }, 3000);
+            }
+        } catch (err) {
+            toast(err, {
+                type: "warning",
+            });
+        }
 
     };
     return (

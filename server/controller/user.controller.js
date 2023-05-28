@@ -17,6 +17,22 @@ const registerUser = async (req, res, next) => {
     }
 }
 
+const loginUser = async (req, res) => {
+    try {
+        const {email, password} = req.body.data;
+        const user = await UserModel.find({email}).exec();
+        if(user.length === 0) {
+            res.json({error: "User not registred.", user});
+        }
+        else if(password != user[0].password) {
+            res.json({error: "Password is wrong."});
+        }
+        res.status(201).json({user, message: "User Login"});
+    } catch(err) {
+        // res.json({message: "user is not found." ,err});
+    }
+};
+
 const getUser = async (req, res) => {
     try {
         const users = await UserModel.find({}).exec();
@@ -28,4 +44,4 @@ const getUser = async (req, res) => {
 };
 
 
-export { registerUser, getUser };
+export { registerUser, loginUser, getUser };
