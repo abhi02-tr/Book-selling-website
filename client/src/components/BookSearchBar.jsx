@@ -1,8 +1,8 @@
-export default function BookSearchBar() {
+export default function BookSearchBar({total}) {
     return (
         <div className="max-w-screen h-10 flex items-center justify-between">
             <div className="font-roboto font-bold text-xl">
-                Total: {null} items
+                Total: {total} items
             </div>
             <div className="flex gap-8">
                 <input type="text" className="border border-black px-2 py-1" placeholder="Search..." />
