@@ -27,15 +27,17 @@ export default function Header() {
 
 
     return (
-        <div className="overflow-hidden z-10 w-full flex h-14 justify-between items-center bg-red-400 text-white mx-auto px-24">
-            <div className="">Logo</div>
+        <div className="overflow-hidden z-10 w-full flex h-16 justify-between items-center bg-red-400 text-white mx-auto px-24">
+            <div className="">
+                <img src="http://localhost:5173/site-logo.svg" className="w-48 h-28" />
+            </div>
             {!isLogin ?
                 (<div className="flex gap-4">
-                    <button className="btn bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-700"
+                    <button className="bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-700"
                         onClick={handleLogin}
                     >Login</button>
 
-                    <button className="btn bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-700"
+                    <button className="bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-700"
                         onClick={handleRegister}
                     >Register</button>
 
@@ -48,7 +50,7 @@ export default function Header() {
                 </div>)
                 : (
                     <div className="flex gap-4">
-                        <button className="btn bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-700"
+                        <button className="bg-blue-600 px-2 py-1 rounded-md hover:bg-blue-700"
                             onClick={handleLogout}
                         >Logout</button>
                     </div>

@@ -3,7 +3,7 @@ import { Routes, Route, Link, useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import './App.css'
 
-import { Login, Register, PageNotFound, Product, Edit, Home } from "./pages";
+import { Login, Register, PageNotFound, Product, Edit, Home, BookList } from "./pages";
 import { Footer, Header, Searchbar } from "./components";
 import { LoginContext, UserContext } from "./contexts";
 
@@ -47,15 +47,18 @@ function App() {
         }} >
           <Header />
           <Searchbar />
-          <div className="max-w-screen my-5 flex items-center justify-center gap-1">
-            <p className="font-bold">Home {'> '} </p> <p className="text-red-400 font-bold">{" " + path}</p>
-          </div>
-          <div className="mb-10 px-24">
+          {!isLogin ? (
+            <div className="max-w-screen my-5 flex items-center justify-center gap-1">
+              <p className="font-bold">Home {'> '} </p> <p className="text-red-400 font-bold">{" " + path}</p>
+            </div>
+          ) : null}
+
+          <div className="my-10 px-24">
 
             <Routes>
-              <Route path="/" element={isLogin ? (<Home />) : (<Login />)} />
-              <Route path='/register' element={<Register />} />
-              <Route path='/login' element={isLogin ? (<Home />) : (<Login />)} />
+              <Route path="/" element={isLogin ? (<BookList />) : (<Login />)} />
+              <Route path='/register' element={isLogin ? (<BookList />) : (<Register />)} />
+              <Route path='/login' element={isLogin ? (<BookList />) : (<Login />)} />
               <Route path="/product" element={isLogin ? (<Product />) : (<Login />)} />
               <Route path="/edit" element={isLogin ? (<Edit />) : (<Login />)} />
               <Route path='*' element={<PageNotFound />} />
